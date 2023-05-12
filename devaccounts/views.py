@@ -76,4 +76,7 @@ def edit_profile(request):
             return redirect('home')
     context = {'form':form}
     return render(request,'devaccounts/edit_profile.html',context)
+
+
+
     

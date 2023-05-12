@@ -3,7 +3,8 @@
 {% block content %}
 <main class="profile-page layout layout--3">
     <div class="container">
-      <!-- Topics Start -->
+      {% include 'includes/topics.html' %}
+      {% comment %} <!-- Topics Start -->
       <div class="topics">
         <div class="topics__header">
           <h2>Browse Topics</h2>
@@ -28,7 +29,7 @@
           </svg>
         </button>
       </div>
-      <!-- Topics End -->
+      <!-- Topics End --> {% endcomment %}
 
       <!-- Room List Start -->
       <div class="roomList">
@@ -39,8 +40,16 @@
             </div>
           </div>
           <div class="profile__info">
-            <h3>{{profile.first_name}}</h3>
+             
+             {% if profile.first_name %}
+             <h3>{{profile.first_name}}</h3>
+             {% endif %}
+              
+            
+            {% if profile.username %}
             <p>@{{profile.username}}</p>
+            {% endif %}
+              
             <a href="{% url 'edit_profile' %}" class="btn btn--main btn--pill">Edit Profile</a>
           </div>
           <div class="profile__about">
@@ -72,7 +81,7 @@
             </div>
           </div>
           <div class="roomListRoom__content">
-            <a href="room.html">{{room.title}}</a>
+            <a href="{% url 'room' room.id %}">{{room.title}}</a>
             <p>
               {{room.description}}
             </p>
@@ -103,7 +112,7 @@
           
       </div>
       <!-- Room List End -->
-
+      {% comment %} {% include 'includes/activities.html' %} {% endcomment %}
       <!-- Activities Start -->
       <div class="activities">
         <div class="activities__header">
@@ -114,7 +123,7 @@
         {% if request.user.profile == message.user %}
         <div class="activities__box">
           <div class="activities__boxHeader roomListRoom__header">
-            <a href="profile.html" class="roomListRoom__author">
+            <a href="{% url 'profile' message.user.id %}" class="roomListRoom__author">
               <div class="avatar avatar--small">
                 <img src="{{message.user.profile_pic.url}}" />
               </div>
@@ -124,7 +133,7 @@
               </p>
             </a>
             <div class="roomListRoom__actions">
-              <a href="#">
+              <a href="{% url 'delete_message' message.id %}">
                 <svg version="1.1" xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32">
                   <title>delete</title>
                   <path
@@ -135,7 +144,7 @@
             </div>
           </div>
           <div class="activities__boxContent">
-            <p>replied to post “<a href="room.html">{{message.room.title}}</a>”</p>
+            <p>replied to post “<a href="{% url 'room' message.room.id %}">{{message.room.title}}</a>”</p>
             <div class="activities__boxRoomContent">
               {{message.body}}
             </div>
@@ -148,7 +157,7 @@
           
 
       </div>
-      <!-- Activities End -->
+      <!-- Activities End --> 
     </div>
   </main>
 {% endblock content %}
